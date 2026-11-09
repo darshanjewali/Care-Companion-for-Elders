@@ -1,0 +1,45 @@
+version: "3.9"
+services:
+  api:
+    build: ../backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_URL: jdbc:postgresql://postgres:5432/care_companion
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASS: ${DB_PASS:?Set DB_PASS before starting the production stack}
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET before starting the production stack}
+    depends_on:
+      - postgres
+      - redis
+
+  web:
+    build: ../frontend
+    ports:
+      - "5173:80"
+
+  ml-service:
+    build: ../ml-service
+    ports:
+      - "8000:8000"
+
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASS:?Set DB_PASS before starting the production stack}
+      POSTGRES_DB: care_companion
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./postgres-schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+volumes:
+  pg_data:

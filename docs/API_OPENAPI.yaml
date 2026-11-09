@@ -1,0 +1,46 @@
+openapi: 3.0.3
+info:
+  title: Care Companion API
+  version: 1.0.0
+  description: Production API contract for elder healthcare support.
+servers:
+  - url: https://api.carecompanion.example.com
+paths:
+  /api/auth/register:
+    post:
+      summary: Register elder/caregiver/admin
+  /api/auth/login:
+    post:
+      summary: Login and issue JWT
+  /api/medications:
+    post:
+      summary: Create medicine reminder
+  /api/medications/{elderId}:
+    get:
+      summary: List elder medications
+  /api/appointments:
+    post:
+      summary: Book appointment
+  /api/appointments/{elderId}:
+    get:
+      summary: Appointment list by elder
+  /api/health-records:
+    post:
+      summary: Add vitals record
+  /api/health-records/{elderId}:
+    get:
+      summary: Get vitals trend
+  /api/alerts/sos:
+    post:
+      summary: Trigger emergency SOS with location
+  /api/chat:
+    post:
+      summary: Send chat message
+    get:
+      summary: Get conversation
+  /api/ai/suggestions:
+    post:
+      summary: AI health suggestions/risk scoring
+  /api/reports/elder/{elderId}/pdf:
+    get:
+      summary: Download PDF report

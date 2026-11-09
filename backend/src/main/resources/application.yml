@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/care_companion}
+    username: ${DB_USER:root}
+    password: ${DB_PASS}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8080
+
+app:
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration-ms: 86400000
+  otp:
+    dev-mode: true
+    ttl-seconds: 300
+    sms:
+      mode: debug # use "twilio" in production
+      twilio:
+        account-sid: ""
+        auth-token: ""
+        from-number: ${TWILIO_FROM_NUMBER:}
